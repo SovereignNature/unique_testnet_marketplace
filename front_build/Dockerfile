@@ -21,10 +21,10 @@ ARG DIR=${WORKDIR}/packages/apps/build
 RUN rm -rf /usr/share/nginx/html
 RUN rm -rf /etc/nginx/conf.d
 RUN unlink /etc/nginx/nginx.conf
-COPY ./build/nginx.conf /etc/nginx/
+COPY ./build_scripts/nginx.conf /etc/nginx/
 RUN mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.template
 COPY --from=src ${DIR} /usr/share/nginx/html
-COPY build/docker-entrypoint.sh /usr/local/bin/
+COPY build_scripts/docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Envs
