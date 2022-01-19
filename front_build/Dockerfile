@@ -3,7 +3,7 @@ FROM node:lts as src
 ARG WORKDIR=/app
 WORKDIR /app
 
-COPY .. .
+COPY . .
 
 RUN cd packages/apps && yarn install
 
