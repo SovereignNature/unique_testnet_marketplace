@@ -5,9 +5,12 @@ function download_repo {
   local BRANCH=$2
   local TAG=$3 # TAG is optional and can be an empty string
 
+  local FOLDER_NAME
+  FOLDER_NAME="$(basename "${REPO}")"
+
   git clone "${REPO}" --branch "${BRANCH}"
   (
-    cd "${REPO}"
+    cd "${FOLDER_NAME}"
     git fetch
     if [ -n "${TAG}" ]; then
       git checkout "tags/${TAG}"
@@ -17,9 +20,12 @@ function download_repo {
 
 cd ..
 
-if [ ! -f ./env/branches.env ]
-then
-  export "$(< ./env/branches.env xargs)"
+if [ ! -f ../env/branches.env ]; then
+  set -o allexport
+  source ./env/branches.env
+  set +o allexport
+
+  #env -0 | sort -z | tr '\0' '\n'
 else
   echo "NO ./env/branches.env FILE FOUND"
   exit;
