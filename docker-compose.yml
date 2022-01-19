@@ -1,8 +1,8 @@
 version: "3"
 
 services:
-  market_db:
-    container_name: market_db
+  new_market_db:
+    container_name: new_market_db
     image: postgres:13.4
     env_file:
       - .env
@@ -13,12 +13,12 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - marketnet
+      - new_marketnet
     restart: unless-stopped
 
   # JS unique escrow service
-  escrow_unique:
-    container_name: escrow_unique
+  new_escrow_unique:
+    container_name: new_escrow_unique
     build:
       context: ./unique-marketplace-escrow
       dockerfile: ./Dockerfile
@@ -35,13 +35,13 @@ services:
       - ADMIN_SEED=${ADMIN_SEED}
       - MATCHER_CONTRACT_ADDRESS=${MATCHER_CONTRACT_ADDRESS}
     networks:
-      - marketnet
+      - new_marketnet
     depends_on:
-      - "market_db"
+      - "new_market_db"
     restart: unless-stopped
 
-  escrow_kusama:
-    container_name: escrow_kusama
+  new_escrow_kusama:
+    container_name: new_escrow_kusama
     build:
       context: ./unique-marketplace-escrow-kusama
       dockerfile: ./Dockerfile
@@ -57,14 +57,14 @@ services:
       - DB_PASSWORD=${POSTGRES_PASSWORD}
       - ADMIN_SEED=${ADMIN_SEED}
     networks:
-      - marketnet
+      - new_marketnet
     depends_on:
-      - "market_db"
-      - "escrow_unique"
+      - "new_market_db"
+      - "new_escrow_unique"
     restart: unless-stopped
 
-  market_backend:
-    container_name: market_api
+  new_market_backend:
+    container_name: new_market_backend
     build:
       context: ./unique-marketplace-api
       dockerfile: ./Dockerfile
@@ -84,16 +84,15 @@ services:
       - DB_PASSWORD=${POSTGRES_PASSWORD}
       - API_PORT=5000
     networks:
-      - marketnet
+      - new_marketnet
     depends_on:
-      - "market_db"
-      - "escrow_unique"
+      - "new_market_db"
+      - "new_escrow_unique"
     restart: unless-stopped
     #command: /bin/bash -c "while true; do sleep 2; df -h; done"
 
-  frontend:
-    image: frontend
-    container_name: frontend
+  new_market_frontend:
+    container_name: new_market_frontend
     expose:
       - 3000
     ports:
@@ -110,13 +109,13 @@ services:
       - INDEX_FILE=/usr/share/nginx/html/index.html
       - PRODUCTION=true
     networks:
-      - marketnet
+      - new_marketnet
     depends_on:
-      - "market_backend"
+      - "new_market_backend"
     restart: unless-stopped
 
 networks:
-  marketnet:
+  new_marketnet:
     driver: bridge
 
 volumes:
