@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+cd ..
+
 rm -rf \
   unique-marketplace-api \
   unique-marketplace-escrow \

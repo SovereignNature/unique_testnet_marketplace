@@ -15,9 +15,14 @@ function download_repo {
   )
 }
 
+cd ..
+
 if [ ! -f ./env/branches.env ]
 then
   export "$(< ./env/branches.env xargs)"
+else
+  echo "NO ./env/branches.env FILE FOUND"
+  exit;
 fi
 
 download_repo "$API_REPO" "$API_BRANCH" "$API_TAG"
