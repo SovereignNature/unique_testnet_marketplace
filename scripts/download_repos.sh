@@ -20,14 +20,14 @@ function download_repo {
 
 cd ..
 
-if [ ! -f ../env/branches.env ]; then
+if [ ! -f ../.branches.env ]; then
   set -o allexport
-  source ./env/branches.env
+  source ./.branches.env
   set +o allexport
 
   #env -0 | sort -z | tr '\0' '\n'
 else
-  echo "NO ./env/branches.env FILE FOUND"
+  echo "NO branches.env FILE FOUND"
   exit;
 fi
 
