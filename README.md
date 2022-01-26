@@ -31,6 +31,5 @@ https://github.com/UniqueNetwork/unique-marketplace-escrow-kusama/tree/v0.8
    - UNIQUE_API - your domain which will point to the api (usually subdomain like api.market.example.com)
    - UNIQUE_COLLECTION_IDS - can be filled later.
 5. Run the `scripts/download_repos.sh`. It should download all the repos from the `.branches.env`.
-6. Copy the folder `build_scripts` to the `unique-marketplace`, so you will get the folder `unique-marketplace/build_scripts`.
-7. Run `docker-compose up -d`.
-8. Set up nginx (or another webserver) to proxy frontend to the 3000 port and backend (which is UNIQUE_API from `.env`) to the 5000 port.
+6. Run `docker-compose up -d`.
+7. Set up nginx (or another webserver) to proxy frontend to the 3000 port and backend (which is UNIQUE_API from `.env`) to the 5000 port.
